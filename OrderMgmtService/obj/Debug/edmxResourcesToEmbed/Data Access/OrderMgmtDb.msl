@@ -39,6 +39,7 @@
     <EntitySetMapping Name="Security_User">
       <EntityTypeMapping TypeName="testAPIModel.Security_User">
         <MappingFragment StoreEntitySet="Security_User">
+          <ScalarProperty Name="ActiveToken" ColumnName="ActiveToken" />
           <ScalarProperty Name="UserId" ColumnName="UserId" />
           <ScalarProperty Name="UserName" ColumnName="UserName" />
           <ScalarProperty Name="Password" ColumnName="Password" />

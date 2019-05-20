@@ -45,6 +45,7 @@
           <Property Name="UserName" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="200" />
           <Property Name="IsActive" Type="bit" />
+          <Property Name="ActiveToken" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="Security_UserSession">
           <Key>
@@ -85,6 +86,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Security___Activ__0DAF0CB0">
+          <End Role="Security_UserSession" Type="Self.Security_UserSession" Multiplicity="0..1" />
+          <End Role="Security_User" Type="Self.Security_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Security_UserSession">
+              <PropertyRef Name="Token" />
+            </Principal>
+            <Dependent Role="Security_User">
+              <PropertyRef Name="ActiveToken" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Security___UserI__0CBAE877">
           <End Role="Security_User" Type="Self.Security_User" Multiplicity="1" />
           <End Role="Security_UserSession" Type="Self.Security_UserSession" Multiplicity="*" />
@@ -111,6 +124,10 @@
           <AssociationSet Name="FK__Orders__Shipping__060DEAE8" Association="Self.FK__Orders__Shipping__060DEAE8">
             <End Role="ShippingMode" EntitySet="ShippingMode" />
             <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Security___Activ__0DAF0CB0" Association="Self.FK__Security___Activ__0DAF0CB0">
+            <End Role="Security_UserSession" EntitySet="Security_UserSession" />
+            <End Role="Security_User" EntitySet="Security_User" />
           </AssociationSet>
           <AssociationSet Name="FK__Security___UserI__0CBAE877" Association="Self.FK__Security___UserI__0CBAE877">
             <End Role="Security_User" EntitySet="Security_User" />
@@ -165,6 +182,8 @@
           <Property Name="Password" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="IsActive" Type="Boolean" />
           <NavigationProperty Name="Security_UserSession" Relationship="testAPIModel.FK__Security___UserI__0CBAE877" FromRole="Security_User" ToRole="Security_UserSession" />
+          <Property Name="ActiveToken" Type="Guid" />
+          <NavigationProperty Name="Security_UserSession1" Relationship="testAPIModel.FK__Security___Activ__0DAF0CB0" FromRole="Security_User" ToRole="Security_UserSession" />
         </EntityType>
         <EntityType Name="ShippingMode">
           <Key>
@@ -217,6 +236,10 @@
             <End Role="Security_User" EntitySet="Security_User" />
             <End Role="Security_UserSession" EntitySet="Security_UserSession" />
           </AssociationSet>
+          <AssociationSet Name="FK__Security___Activ__0DAF0CB0" Association="testAPIModel.FK__Security___Activ__0DAF0CB0">
+            <End Role="Security_UserSession" EntitySet="Security_UserSession" />
+            <End Role="Security_User" EntitySet="Security_User" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Security_UserSession">
           <Key>
@@ -226,6 +249,7 @@
           <Property Name="UserId" Type="Guid" Nullable="false" />
           <Property Name="CreatedTimestamp" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Security_User" Relationship="testAPIModel.FK__Security___UserI__0CBAE877" FromRole="Security_UserSession" ToRole="Security_User" />
+          <NavigationProperty Name="Security_User1" Relationship="testAPIModel.FK__Security___Activ__0DAF0CB0" FromRole="Security_UserSession" ToRole="Security_User" />
         </EntityType>
         <Association Name="FK__Security___UserI__0CBAE877">
           <End Type="testAPIModel.Security_User" Role="Security_User" Multiplicity="1" />
@@ -236,6 +260,18 @@
             </Principal>
             <Dependent Role="Security_UserSession">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Security___Activ__0DAF0CB0">
+          <End Type="testAPIModel.Security_UserSession" Role="Security_UserSession" Multiplicity="0..1" />
+          <End Type="testAPIModel.Security_User" Role="Security_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Security_UserSession">
+              <PropertyRef Name="Token" />
+            </Principal>
+            <Dependent Role="Security_User">
+              <PropertyRef Name="ActiveToken" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -283,6 +319,7 @@
           <EntitySetMapping Name="Security_User">
             <EntityTypeMapping TypeName="testAPIModel.Security_User">
               <MappingFragment StoreEntitySet="Security_User">
+                <ScalarProperty Name="ActiveToken" ColumnName="ActiveToken" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Password" ColumnName="Password" />

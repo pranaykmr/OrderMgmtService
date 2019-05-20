@@ -14,10 +14,18 @@ namespace OrderMgmtService.Data_Access
     
     public partial class Security_UserSession
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Security_UserSession()
+        {
+            this.Security_User1 = new HashSet<Security_User>();
+        }
+    
         public System.Guid Token { get; set; }
         public System.Guid UserId { get; set; }
         public System.DateTime CreatedTimestamp { get; set; }
     
         public virtual Security_User Security_User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Security_User> Security_User1 { get; set; }
     }
 }

@@ -40,6 +40,7 @@
     <Property Name="UserName" Type="nvarchar" MaxLength="200" Nullable="false" />
     <Property Name="Password" Type="nvarchar" MaxLength="200" />
     <Property Name="IsActive" Type="bit" />
+    <Property Name="ActiveToken" Type="uniqueidentifier" />
   </EntityType>
   <EntityType Name="Security_UserSession">
     <Key>
@@ -80,6 +81,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__Security___Activ__0DAF0CB0">
+    <End Role="Security_UserSession" Type="Self.Security_UserSession" Multiplicity="0..1" />
+    <End Role="Security_User" Type="Self.Security_User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Security_UserSession">
+        <PropertyRef Name="Token" />
+      </Principal>
+      <Dependent Role="Security_User">
+        <PropertyRef Name="ActiveToken" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK__Security___UserI__0CBAE877">
     <End Role="Security_User" Type="Self.Security_User" Multiplicity="1" />
     <End Role="Security_UserSession" Type="Self.Security_UserSession" Multiplicity="*" />
@@ -106,6 +119,10 @@
     <AssociationSet Name="FK__Orders__Shipping__060DEAE8" Association="Self.FK__Orders__Shipping__060DEAE8">
       <End Role="ShippingMode" EntitySet="ShippingMode" />
       <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Security___Activ__0DAF0CB0" Association="Self.FK__Security___Activ__0DAF0CB0">
+      <End Role="Security_UserSession" EntitySet="Security_UserSession" />
+      <End Role="Security_User" EntitySet="Security_User" />
     </AssociationSet>
     <AssociationSet Name="FK__Security___UserI__0CBAE877" Association="Self.FK__Security___UserI__0CBAE877">
       <End Role="Security_User" EntitySet="Security_User" />

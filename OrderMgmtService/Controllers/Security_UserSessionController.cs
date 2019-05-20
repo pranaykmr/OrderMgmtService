@@ -24,15 +24,19 @@ namespace OrderMgmtService.Controllers
 
         // GET: api/Security_UserSession/5
         [ResponseType(typeof(Security_UserSession))]
-        public IHttpActionResult GetSecurity_UserSession(Guid id)
+        public IHttpActionResult GetSecurity_UserSessionValid(Guid id)
         {
-            Security_UserSession security_UserSession = db.Security_UserSession.Find(id);
-            if (security_UserSession == null)
+            OrderMgmtService.Data_Access.Security_User user = db.Security_User.First(x => x.ActiveToken == id);
+            if (user.ActiveToken == null)
             {
                 return NotFound();
             }
-
-            return Ok(security_UserSession);
+            bool isValid = (db.Security_UserSession.Count(e => user.ActiveToken == id) > 0);
+            if (!isValid)
+            {
+                return NotFound();
+            }
+            return Ok(true);
         }
 
         // PUT: api/Security_UserSession/5
