@@ -15,7 +15,9 @@ namespace OrderMgmtService.Controllers
     {
         private testAPIEntities db = new testAPIEntities();
         [ResponseType(typeof(Security_User))]
-        public IHttpActionResult GetLogonTheUser(string username, string password)
+        [ActionName("LogonTheUser")]
+        [HttpGet]
+        public IHttpActionResult LogonTheUser(string username, string password)
         {
             Security_User security_User = OrderMgmtService.Controllers.Security_UserController.db.Security_User.First(x => (x.UserName == username && x.Password == password));
             if (security_User == null)
@@ -40,24 +42,24 @@ namespace OrderMgmtService.Controllers
         }
 
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutLogoutUserSession(Guid id)
+        [ActionName("LogoutUserSession")]
+        [HttpGet]
+        public IHttpActionResult LogoutUserSession(Guid token)
         {
-            Security_User security_User = new Security_User();
-            security_User.IsActive = false;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Entry(security_User).Property(x => x.IsActive).IsModified = true;
-
-            try
+            using (testAPIEntities db = new testAPIEntities())
             {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                throw;
+                var result = db.Security_User.SingleOrDefault(b => b.ActiveToken == token);
+                if (result != null)
+                {
+                    result.IsActive = false;
+                    result.ActiveToken = null;
+                    db.SaveChanges();
+                }
             }
 
             return StatusCode(HttpStatusCode.NoContent);
