@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="testAPIModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Buyer">
+    <Key>
+      <PropertyRef Name="BuyerId" />
+    </Key>
+    <Property Name="BuyerId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="BuyerName" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="BuyerLocation" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="Factory">
+    <Key>
+      <PropertyRef Name="Factory_Id" />
+    </Key>
+    <Property Name="Factory_Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Location" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="Orders">
+    <Key>
+      <PropertyRef Name="Order_No" />
+    </Key>
+    <Property Name="Order_No" Type="bigint" Nullable="false" />
+    <Property Name="Style_No" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Quantity" Type="bigint" Nullable="false" />
+    <Property Name="Delivery" Type="date" Nullable="false" />
+    <Property Name="Factory_Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Purchase_Order_No" Type="bigint" Nullable="false" />
+    <Property Name="ShippingMode_Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Price_FOB" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+    <Property Name="Factory_Price" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+    <Property Name="Total_Value" Type="decimal" Precision="38" Scale="4" StoreGeneratedPattern="Computed" />
+    <Property Name="Ship_Date" Type="date" />
+  </EntityType>
+  <EntityType Name="Security_User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="200" />
+    <Property Name="IsActive" Type="bit" />
+  </EntityType>
+  <EntityType Name="Security_UserSession">
+    <Key>
+      <PropertyRef Name="Token" />
+    </Key>
+    <Property Name="Token" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CreatedTimestamp" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ShippingMode">
+    <Key>
+      <PropertyRef Name="ShippingMode_Id" />
+    </Key>
+    <Property Name="ShippingMode_Id" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="ShippingModeName" Type="nvarchar" MaxLength="200" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Orders__Factory___0519C6AF">
+    <End Role="Factory" Type="Self.Factory" Multiplicity="1" />
+    <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Factory">
+        <PropertyRef Name="Factory_Id" />
+      </Principal>
+      <Dependent Role="Orders">
+        <PropertyRef Name="Factory_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Orders__Shipping__060DEAE8">
+    <End Role="ShippingMode" Type="Self.ShippingMode" Multiplicity="1" />
+    <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ShippingMode">
+        <PropertyRef Name="ShippingMode_Id" />
+      </Principal>
+      <Dependent Role="Orders">
+        <PropertyRef Name="ShippingMode_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Security___UserI__0CBAE877">
+    <End Role="Security_User" Type="Self.Security_User" Multiplicity="1" />
+    <End Role="Security_UserSession" Type="Self.Security_UserSession" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Security_User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Security_UserSession">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="testAPIModelStoreContainer">
+    <EntitySet Name="Buyer" EntityType="Self.Buyer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Factory" EntityType="Self.Factory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Security_User" EntityType="Self.Security_User" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Security_UserSession" EntityType="Self.Security_UserSession" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ShippingMode" EntityType="Self.ShippingMode" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Orders__Factory___0519C6AF" Association="Self.FK__Orders__Factory___0519C6AF">
+      <End Role="Factory" EntitySet="Factory" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Orders__Shipping__060DEAE8" Association="Self.FK__Orders__Shipping__060DEAE8">
+      <End Role="ShippingMode" EntitySet="ShippingMode" />
+      <End Role="Orders" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Security___UserI__0CBAE877" Association="Self.FK__Security___UserI__0CBAE877">
+      <End Role="Security_User" EntitySet="Security_User" />
+      <End Role="Security_UserSession" EntitySet="Security_UserSession" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

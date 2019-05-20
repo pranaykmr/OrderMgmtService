@@ -1,0 +1,333 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="testAPIModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Buyer">
+          <Key>
+            <PropertyRef Name="BuyerId" />
+          </Key>
+          <Property Name="BuyerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="BuyerName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="BuyerLocation" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Factory">
+          <Key>
+            <PropertyRef Name="Factory_Id" />
+          </Key>
+          <Property Name="Factory_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Location" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="Order_No" />
+          </Key>
+          <Property Name="Order_No" Type="bigint" Nullable="false" />
+          <Property Name="Style_No" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Quantity" Type="bigint" Nullable="false" />
+          <Property Name="Delivery" Type="date" Nullable="false" />
+          <Property Name="Factory_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Purchase_Order_No" Type="bigint" Nullable="false" />
+          <Property Name="ShippingMode_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Price_FOB" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Factory_Price" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Total_Value" Type="decimal" Precision="38" Scale="4" StoreGeneratedPattern="Computed" />
+          <Property Name="Ship_Date" Type="date" />
+        </EntityType>
+        <EntityType Name="Security_User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="200" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="Security_UserSession">
+          <Key>
+            <PropertyRef Name="Token" />
+          </Key>
+          <Property Name="Token" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreatedTimestamp" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ShippingMode">
+          <Key>
+            <PropertyRef Name="ShippingMode_Id" />
+          </Key>
+          <Property Name="ShippingMode_Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ShippingModeName" Type="nvarchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Orders__Factory___0519C6AF">
+          <End Role="Factory" Type="Self.Factory" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Factory">
+              <PropertyRef Name="Factory_Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Factory_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Shipping__060DEAE8">
+          <End Role="ShippingMode" Type="Self.ShippingMode" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShippingMode">
+              <PropertyRef Name="ShippingMode_Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="ShippingMode_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Security___UserI__0CBAE877">
+          <End Role="Security_User" Type="Self.Security_User" Multiplicity="1" />
+          <End Role="Security_UserSession" Type="Self.Security_UserSession" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Security_User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Security_UserSession">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="testAPIModelStoreContainer">
+          <EntitySet Name="Buyer" EntityType="Self.Buyer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Factory" EntityType="Self.Factory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Security_User" EntityType="Self.Security_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Security_UserSession" EntityType="Self.Security_UserSession" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShippingMode" EntityType="Self.ShippingMode" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Orders__Factory___0519C6AF" Association="Self.FK__Orders__Factory___0519C6AF">
+            <End Role="Factory" EntitySet="Factory" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Shipping__060DEAE8" Association="Self.FK__Orders__Shipping__060DEAE8">
+            <End Role="ShippingMode" EntitySet="ShippingMode" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Security___UserI__0CBAE877" Association="Self.FK__Security___UserI__0CBAE877">
+            <End Role="Security_User" EntitySet="Security_User" />
+            <End Role="Security_UserSession" EntitySet="Security_UserSession" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="testAPIModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Buyer">
+          <Key>
+            <PropertyRef Name="BuyerId" />
+          </Key>
+          <Property Name="BuyerId" Type="Guid" Nullable="false" />
+          <Property Name="BuyerName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BuyerLocation" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Factory">
+          <Key>
+            <PropertyRef Name="Factory_Id" />
+          </Key>
+          <Property Name="Factory_Id" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__Factory___0519C6AF" FromRole="Factory" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Order_No" />
+          </Key>
+          <Property Name="Order_No" Type="Int64" Nullable="false" />
+          <Property Name="Style_No" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Quantity" Type="Int64" Nullable="false" />
+          <Property Name="Delivery" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Factory_Id" Type="Guid" Nullable="false" />
+          <Property Name="Purchase_Order_No" Type="Int64" Nullable="false" />
+          <Property Name="ShippingMode_Id" Type="Guid" Nullable="false" />
+          <Property Name="Price_FOB" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Factory_Price" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Total_Value" Type="Decimal" Precision="38" Scale="4" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Ship_Date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Factory" Relationship="Self.FK__Orders__Factory___0519C6AF" FromRole="Orders" ToRole="Factory" />
+          <NavigationProperty Name="ShippingMode" Relationship="Self.FK__Orders__Shipping__060DEAE8" FromRole="Orders" ToRole="ShippingMode" />
+        </EntityType>
+        <EntityType Name="Security_User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="Security_UserSession" Relationship="testAPIModel.FK__Security___UserI__0CBAE877" FromRole="Security_User" ToRole="Security_UserSession" />
+        </EntityType>
+        <EntityType Name="ShippingMode">
+          <Key>
+            <PropertyRef Name="ShippingMode_Id" />
+          </Key>
+          <Property Name="ShippingMode_Id" Type="Guid" Nullable="false" />
+          <Property Name="ShippingModeName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__Shipping__060DEAE8" FromRole="ShippingMode" ToRole="Orders" />
+        </EntityType>
+        <Association Name="FK__Orders__Factory___0519C6AF">
+          <End Role="Factory" Type="Self.Factory" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Factory">
+              <PropertyRef Name="Factory_Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="Factory_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Shipping__060DEAE8">
+          <End Role="ShippingMode" Type="Self.ShippingMode" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShippingMode">
+              <PropertyRef Name="ShippingMode_Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="ShippingMode_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="testAPIEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Buyers" EntityType="Self.Buyer" />
+          <EntitySet Name="Factories" EntityType="Self.Factory" />
+          <EntitySet Name="Orders" EntityType="Self.Order" />
+          <EntitySet Name="Security_User" EntityType="Self.Security_User" />
+          <EntitySet Name="ShippingModes" EntityType="Self.ShippingMode" />
+          <AssociationSet Name="FK__Orders__Factory___0519C6AF" Association="Self.FK__Orders__Factory___0519C6AF">
+            <End Role="Factory" EntitySet="Factories" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Shipping__060DEAE8" Association="Self.FK__Orders__Shipping__060DEAE8">
+            <End Role="ShippingMode" EntitySet="ShippingModes" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <EntitySet Name="Security_UserSession" EntityType="testAPIModel.Security_UserSession" />
+          <AssociationSet Name="FK__Security___UserI__0CBAE877" Association="testAPIModel.FK__Security___UserI__0CBAE877">
+            <End Role="Security_User" EntitySet="Security_User" />
+            <End Role="Security_UserSession" EntitySet="Security_UserSession" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Security_UserSession">
+          <Key>
+            <PropertyRef Name="Token" />
+          </Key>
+          <Property Name="Token" Type="Guid" Nullable="false" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="CreatedTimestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Security_User" Relationship="testAPIModel.FK__Security___UserI__0CBAE877" FromRole="Security_UserSession" ToRole="Security_User" />
+        </EntityType>
+        <Association Name="FK__Security___UserI__0CBAE877">
+          <End Type="testAPIModel.Security_User" Role="Security_User" Multiplicity="1" />
+          <End Type="testAPIModel.Security_UserSession" Role="Security_UserSession" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Security_User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Security_UserSession">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="testAPIModelStoreContainer" CdmEntityContainer="testAPIEntities">
+          <EntitySetMapping Name="Buyers">
+            <EntityTypeMapping TypeName="testAPIModel.Buyer">
+              <MappingFragment StoreEntitySet="Buyer">
+                <ScalarProperty Name="BuyerId" ColumnName="BuyerId" />
+                <ScalarProperty Name="BuyerName" ColumnName="BuyerName" />
+                <ScalarProperty Name="BuyerLocation" ColumnName="BuyerLocation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Factories">
+            <EntityTypeMapping TypeName="testAPIModel.Factory">
+              <MappingFragment StoreEntitySet="Factory">
+                <ScalarProperty Name="Factory_Id" ColumnName="Factory_Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="testAPIModel.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="Order_No" ColumnName="Order_No" />
+                <ScalarProperty Name="Style_No" ColumnName="Style_No" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Delivery" ColumnName="Delivery" />
+                <ScalarProperty Name="Factory_Id" ColumnName="Factory_Id" />
+                <ScalarProperty Name="Purchase_Order_No" ColumnName="Purchase_Order_No" />
+                <ScalarProperty Name="ShippingMode_Id" ColumnName="ShippingMode_Id" />
+                <ScalarProperty Name="Price_FOB" ColumnName="Price_FOB" />
+                <ScalarProperty Name="Factory_Price" ColumnName="Factory_Price" />
+                <ScalarProperty Name="Total_Value" ColumnName="Total_Value" />
+                <ScalarProperty Name="Ship_Date" ColumnName="Ship_Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Security_User">
+            <EntityTypeMapping TypeName="testAPIModel.Security_User">
+              <MappingFragment StoreEntitySet="Security_User">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ShippingModes">
+            <EntityTypeMapping TypeName="testAPIModel.ShippingMode">
+              <MappingFragment StoreEntitySet="ShippingMode">
+                <ScalarProperty Name="ShippingMode_Id" ColumnName="ShippingMode_Id" />
+                <ScalarProperty Name="ShippingModeName" ColumnName="ShippingModeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Security_UserSession">
+            <EntityTypeMapping TypeName="testAPIModel.Security_UserSession">
+              <MappingFragment StoreEntitySet="Security_UserSession">
+                <ScalarProperty Name="CreatedTimestamp" ColumnName="CreatedTimestamp" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Token" ColumnName="Token" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="testAPIModelStoreContainer" CdmEntityContainer="testAPIEntities">
+    <EntitySetMapping Name="Buyers">
+      <EntityTypeMapping TypeName="testAPIModel.Buyer">
+        <MappingFragment StoreEntitySet="Buyer">
+          <ScalarProperty Name="BuyerId" ColumnName="BuyerId" />
+          <ScalarProperty Name="BuyerName" ColumnName="BuyerName" />
+          <ScalarProperty Name="BuyerLocation" ColumnName="BuyerLocation" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Factories">
+      <EntityTypeMapping TypeName="testAPIModel.Factory">
+        <MappingFragment StoreEntitySet="Factory">
+          <ScalarProperty Name="Factory_Id" ColumnName="Factory_Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Location" ColumnName="Location" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Orders">
+      <EntityTypeMapping TypeName="testAPIModel.Order">
+        <MappingFragment StoreEntitySet="Orders">
+          <ScalarProperty Name="Order_No" ColumnName="Order_No" />
+          <ScalarProperty Name="Style_No" ColumnName="Style_No" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Delivery" ColumnName="Delivery" />
+          <ScalarProperty Name="Factory_Id" ColumnName="Factory_Id" />
+          <ScalarProperty Name="Purchase_Order_No" ColumnName="Purchase_Order_No" />
+          <ScalarProperty Name="ShippingMode_Id" ColumnName="ShippingMode_Id" />
+          <ScalarProperty Name="Price_FOB" ColumnName="Price_FOB" />
+          <ScalarProperty Name="Factory_Price" ColumnName="Factory_Price" />
+          <ScalarProperty Name="Total_Value" ColumnName="Total_Value" />
+          <ScalarProperty Name="Ship_Date" ColumnName="Ship_Date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Security_User">
+      <EntityTypeMapping TypeName="testAPIModel.Security_User">
+        <MappingFragment StoreEntitySet="Security_User">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ShippingModes">
+      <EntityTypeMapping TypeName="testAPIModel.ShippingMode">
+        <MappingFragment StoreEntitySet="ShippingMode">
+          <ScalarProperty Name="ShippingMode_Id" ColumnName="ShippingMode_Id" />
+          <ScalarProperty Name="ShippingModeName" ColumnName="ShippingModeName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Security_UserSession">
+      <EntityTypeMapping TypeName="testAPIModel.Security_UserSession">
+        <MappingFragment StoreEntitySet="Security_UserSession">
+          <ScalarProperty Name="CreatedTimestamp" ColumnName="CreatedTimestamp" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Token" ColumnName="Token" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
