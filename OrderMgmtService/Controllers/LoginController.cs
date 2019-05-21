@@ -91,5 +91,29 @@ namespace OrderMgmtService.Controllers
 
             return StatusCode(HttpStatusCode.NoContent);
         }
+
+        [ResponseType(typeof(Boolean))]
+        [ActionName("UpdatePassword")]
+        [HttpGet]
+        public IHttpActionResult UpdatePassword(string newPassword, Guid userId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            using (testAPIEntities db = new testAPIEntities())
+            {
+                var result = db.Security_User.SingleOrDefault(b => b.UserId == userId);
+                if (result != null)
+                {
+                    result.Password = newPassword;
+                    db.SaveChanges();
+                    return Ok(true);
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
     }
 }
