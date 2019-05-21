@@ -46,6 +46,7 @@
     <NavigationProperty Name="Security_UserSession" Relationship="testAPIModel.FK__Security___UserI__0CBAE877" FromRole="Security_User" ToRole="Security_UserSession" />
     <Property Name="ActiveToken" Type="Guid" />
     <NavigationProperty Name="Security_UserSession1" Relationship="testAPIModel.FK__Security___Activ__0DAF0CB0" FromRole="Security_User" ToRole="Security_UserSession" />
+    <Property Name="IsDeleted" Type="Boolean" />
   </EntityType>
   <EntityType Name="ShippingMode">
     <Key>

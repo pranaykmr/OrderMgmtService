@@ -26,7 +26,7 @@ namespace OrderMgmtService.Controllers
         [ResponseType(typeof(Security_UserSession))]
         public IHttpActionResult GetSecurity_UserSessionValid(Guid id)
         {
-            OrderMgmtService.Data_Access.Security_User user = db.Security_User.First(x => x.ActiveToken == id);
+            OrderMgmtService.Data_Access.Security_User user = db.Security_User.First(x => (x.ActiveToken == id && x.IsDeleted == false));
             if (user.ActiveToken == null)
             {
                 return NotFound();

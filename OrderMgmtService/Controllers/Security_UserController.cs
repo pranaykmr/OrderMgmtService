@@ -14,7 +14,7 @@ namespace OrderMgmtService.Controllers
 {
     public class Security_UserController : ApiController
     {
-        public static testAPIEntities db = new testAPIEntities();
+        public testAPIEntities db = new testAPIEntities();
 
         // GET: api/Security_User
         public IQueryable<Security_User> GetSecurity_User()

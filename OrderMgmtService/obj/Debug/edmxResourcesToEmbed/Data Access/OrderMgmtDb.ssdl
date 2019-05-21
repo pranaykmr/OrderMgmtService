@@ -41,6 +41,7 @@
     <Property Name="Password" Type="nvarchar" MaxLength="200" />
     <Property Name="IsActive" Type="bit" />
     <Property Name="ActiveToken" Type="uniqueidentifier" />
+    <Property Name="IsDeleted" Type="bit" />
   </EntityType>
   <EntityType Name="Security_UserSession">
     <Key>

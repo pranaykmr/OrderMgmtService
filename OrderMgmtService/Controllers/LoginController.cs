@@ -19,7 +19,8 @@ namespace OrderMgmtService.Controllers
         [HttpGet]
         public IHttpActionResult LogonTheUser(string username, string password)
         {
-            Security_User security_User = OrderMgmtService.Controllers.Security_UserController.db.Security_User.First(x => (x.UserName == username && x.Password == password));
+            OrderMgmtService.Controllers.Security_UserController objectSecurityUser = new Security_UserController();
+            Security_User security_User = objectSecurityUser.db.Security_User.First(x => (x.UserName == username && x.Password == password && x.IsDeleted == false));
             if (security_User == null)
             {
                 return NotFound();
@@ -29,7 +30,7 @@ namespace OrderMgmtService.Controllers
                 Guid newToken = Guid.NewGuid();
                 security_User.IsActive = true;
                 security_User.ActiveToken = newToken;
-                OrderMgmtService.Controllers.Security_UserController objectSecurityUser = new Security_UserController();
+                security_User.IsDeleted = false;
                 Security_UserSession newUserSession = new Security_UserSession();
                 newUserSession.UserId = security_User.UserId;
                 newUserSession.Token = newToken;
@@ -59,6 +60,32 @@ namespace OrderMgmtService.Controllers
                     result.IsActive = false;
                     result.ActiveToken = null;
                     db.SaveChanges();
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        [ResponseType(typeof(Boolean))]
+        [ActionName("DeleteUser")]
+        [HttpGet]
+        public IHttpActionResult DeleteUser(Guid userId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            using (testAPIEntities db = new testAPIEntities())
+            {
+                var result = db.Security_User.SingleOrDefault(b => b.UserId == userId);
+                if (result != null)
+                {
+                    result.IsActive = false;
+                    result.ActiveToken = null;
+                    result.IsDeleted = true;
+                    db.SaveChanges();
+                    return Ok(true);
                 }
             }
 
