@@ -43,6 +43,7 @@
     <Property Name="IsActive" Type="bit" />
     <Property Name="ActiveToken" Type="uniqueidentifier" />
     <Property Name="IsDeleted" Type="bit" />
+    <Property Name="IsAdmin" Type="bit" />
   </EntityType>
   <EntityType Name="Security_UserSession">
     <Key>

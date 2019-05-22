@@ -26,6 +26,7 @@ namespace OrderMgmtService.Data_Access
         public Nullable<bool> IsActive { get; set; }
         public Nullable<System.Guid> ActiveToken { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
+        public Nullable<bool> IsAdmin { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Security_UserSession> Security_UserSession { get; set; }

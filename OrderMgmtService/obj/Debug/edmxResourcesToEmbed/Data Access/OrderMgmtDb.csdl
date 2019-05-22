@@ -50,6 +50,7 @@
     <Property Name="ActiveToken" Type="Guid" />
     <NavigationProperty Name="Security_UserSession1" Relationship="testAPIModel.FK__Security___Activ__0DAF0CB0" FromRole="Security_User" ToRole="Security_UserSession" />
     <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="IsAdmin" Type="Boolean" />
   </EntityType>
   <EntityType Name="ShippingMode">
     <Key>
