@@ -25,8 +25,10 @@ namespace OrderMgmtService.Data_Access
         public decimal Factory_Price { get; set; }
         public Nullable<decimal> Total_Value { get; set; }
         public Nullable<System.DateTime> Ship_Date { get; set; }
+        public Nullable<System.Guid> BuyerId { get; set; }
     
         public virtual Factory Factory { get; set; }
         public virtual ShippingMode ShippingMode { get; set; }
+        public virtual Buyer Buyer { get; set; }
     }
 }

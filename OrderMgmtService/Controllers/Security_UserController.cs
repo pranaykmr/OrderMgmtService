@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using OrderMgmtService.Data_Access;
+using System.Web.Http.Cors;
 
 namespace OrderMgmtService.Controllers
 {

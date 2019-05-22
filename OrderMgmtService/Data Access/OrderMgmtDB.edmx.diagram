@@ -15,6 +15,7 @@
         <EntityTypeShape EntityType="testAPIModel.Security_UserSession" Width="1.5" PointX="5" PointY="6" />
         <AssociationConnector Association="testAPIModel.FK__Security___UserI__0CBAE877" />
         <AssociationConnector Association="testAPIModel.FK__Security___Activ__0DAF0CB0" />
+        <AssociationConnector Association="testAPIModel.FK__Orders__BuyerId__0F975522" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

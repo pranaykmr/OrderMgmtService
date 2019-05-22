@@ -14,8 +14,17 @@ namespace OrderMgmtService.Data_Access
     
     public partial class Buyer
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Buyer()
+        {
+            this.Orders = new HashSet<Order>();
+        }
+    
         public System.Guid BuyerId { get; set; }
         public string BuyerName { get; set; }
         public string BuyerLocation { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

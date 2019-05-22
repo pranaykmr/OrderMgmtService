@@ -44,3 +44,6 @@ D:\Application\OrderMgmtService\OrderMgmtService\OrderMgmtService\bin\Newtonsoft
 D:\Application\OrderMgmtService\OrderMgmtService\OrderMgmtService\bin\System.Net.Http.Formatting.xml
 D:\Application\OrderMgmtService\OrderMgmtService\OrderMgmtService\bin\System.Web.Http.xml
 D:\Application\OrderMgmtService\OrderMgmtService\OrderMgmtService\bin\System.Web.Http.WebHost.xml
+D:\Application\OrderMgmtService\OrderMgmtService\OrderMgmtService\bin\System.Web.Cors.dll
+D:\Application\OrderMgmtService\OrderMgmtService\OrderMgmtService\bin\System.Web.Http.Cors.dll
+D:\Application\OrderMgmtService\OrderMgmtService\OrderMgmtService\bin\System.Web.Http.Cors.xml

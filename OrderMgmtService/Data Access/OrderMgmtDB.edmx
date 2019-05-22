@@ -36,6 +36,7 @@
           <Property Name="Factory_Price" Type="decimal" Precision="18" Scale="4" Nullable="false" />
           <Property Name="Total_Value" Type="decimal" Precision="38" Scale="4" StoreGeneratedPattern="Computed" />
           <Property Name="Ship_Date" Type="date" />
+          <Property Name="BuyerId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="Security_User">
           <Key>
@@ -63,6 +64,18 @@
           <Property Name="ShippingMode_Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ShippingModeName" Type="nvarchar" MaxLength="200" Nullable="false" />
         </EntityType>
+        <Association Name="FK__Orders__BuyerId__0F975522">
+          <End Role="Buyer" Type="Self.Buyer" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Buyer">
+              <PropertyRef Name="BuyerId" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="BuyerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Orders__Factory___0519C6AF">
           <End Role="Factory" Type="Self.Factory" Multiplicity="1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
@@ -118,6 +131,10 @@
           <EntitySet Name="Security_User" EntityType="Self.Security_User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Security_UserSession" EntityType="Self.Security_UserSession" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ShippingMode" EntityType="Self.ShippingMode" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Orders__BuyerId__0F975522" Association="Self.FK__Orders__BuyerId__0F975522">
+            <End Role="Buyer" EntitySet="Buyer" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
           <AssociationSet Name="FK__Orders__Factory___0519C6AF" Association="Self.FK__Orders__Factory___0519C6AF">
             <End Role="Factory" EntitySet="Factory" />
             <End Role="Orders" EntitySet="Orders" />
@@ -146,6 +163,7 @@
           <Property Name="BuyerId" Type="Guid" Nullable="false" />
           <Property Name="BuyerName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="BuyerLocation" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Orders" Relationship="testAPIModel.FK__Orders__BuyerId__0F975522" FromRole="Buyer" ToRole="Order" />
         </EntityType>
         <EntityType Name="Factory">
           <Key>
@@ -173,6 +191,8 @@
           <Property Name="Ship_Date" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Factory" Relationship="Self.FK__Orders__Factory___0519C6AF" FromRole="Orders" ToRole="Factory" />
           <NavigationProperty Name="ShippingMode" Relationship="Self.FK__Orders__Shipping__060DEAE8" FromRole="Orders" ToRole="ShippingMode" />
+          <Property Name="BuyerId" Type="Guid" />
+          <NavigationProperty Name="Buyer" Relationship="testAPIModel.FK__Orders__BuyerId__0F975522" FromRole="Order" ToRole="Buyer" />
         </EntityType>
         <EntityType Name="Security_User">
           <Key>
@@ -242,6 +262,10 @@
             <End Role="Security_UserSession" EntitySet="Security_UserSession" />
             <End Role="Security_User" EntitySet="Security_User" />
           </AssociationSet>
+          <AssociationSet Name="FK__Orders__BuyerId__0F975522" Association="testAPIModel.FK__Orders__BuyerId__0F975522">
+            <End Role="Buyer" EntitySet="Buyers" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Security_UserSession">
           <Key>
@@ -277,6 +301,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Orders__BuyerId__0F975522">
+          <End Type="testAPIModel.Buyer" Role="Buyer" Multiplicity="0..1" />
+          <End Type="testAPIModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Buyer">
+              <PropertyRef Name="BuyerId" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="BuyerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -304,6 +340,7 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="testAPIModel.Order">
               <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="BuyerId" ColumnName="BuyerId" />
                 <ScalarProperty Name="Order_No" ColumnName="Order_No" />
                 <ScalarProperty Name="Style_No" ColumnName="Style_No" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
