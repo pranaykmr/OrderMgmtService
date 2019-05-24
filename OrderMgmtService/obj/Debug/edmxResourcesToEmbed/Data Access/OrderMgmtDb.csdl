@@ -16,27 +16,7 @@
     <Property Name="Factory_Id" Type="Guid" Nullable="false" />
     <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Location" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__Factory___0519C6AF" FromRole="Factory" ToRole="Orders" />
-  </EntityType>
-  <EntityType Name="Order">
-    <Key>
-      <PropertyRef Name="Order_No" />
-    </Key>
-    <Property Name="Order_No" Type="Int64" Nullable="false" />
-    <Property Name="Style_No" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Quantity" Type="Int64" Nullable="false" />
-    <Property Name="Delivery" Type="DateTime" Nullable="false" Precision="0" />
-    <Property Name="Factory_Id" Type="Guid" Nullable="false" />
-    <Property Name="Purchase_Order_No" Type="Int64" Nullable="false" />
-    <Property Name="ShippingMode_Id" Type="Guid" Nullable="false" />
-    <Property Name="Price_FOB" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
-    <Property Name="Factory_Price" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
-    <Property Name="Total_Value" Type="Decimal" Precision="38" Scale="4" annotation:StoreGeneratedPattern="Computed" />
-    <Property Name="Ship_Date" Type="DateTime" Precision="0" />
-    <NavigationProperty Name="Factory" Relationship="Self.FK__Orders__Factory___0519C6AF" FromRole="Orders" ToRole="Factory" />
-    <NavigationProperty Name="ShippingMode" Relationship="Self.FK__Orders__Shipping__060DEAE8" FromRole="Orders" ToRole="ShippingMode" />
-    <Property Name="BuyerId" Type="Guid" />
-    <NavigationProperty Name="Buyer" Relationship="testAPIModel.FK__Orders__BuyerId__0F975522" FromRole="Order" ToRole="Buyer" />
+    <NavigationProperty Name="Orders" Relationship="testAPIModel.FK__Orders__Factory___0519C6AF" FromRole="Factory" ToRole="Order" />
   </EntityType>
   <EntityType Name="Security_User">
     <Key>
@@ -58,46 +38,13 @@
     </Key>
     <Property Name="ShippingMode_Id" Type="Guid" Nullable="false" />
     <Property Name="ShippingModeName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__Shipping__060DEAE8" FromRole="ShippingMode" ToRole="Orders" />
+    <NavigationProperty Name="Orders" Relationship="testAPIModel.FK__Orders__Shipping__060DEAE8" FromRole="ShippingMode" ToRole="Order" />
   </EntityType>
-  <Association Name="FK__Orders__Factory___0519C6AF">
-    <End Role="Factory" Type="Self.Factory" Multiplicity="1" />
-    <End Role="Orders" Type="Self.Order" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Factory">
-        <PropertyRef Name="Factory_Id" />
-      </Principal>
-      <Dependent Role="Orders">
-        <PropertyRef Name="Factory_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK__Orders__Shipping__060DEAE8">
-    <End Role="ShippingMode" Type="Self.ShippingMode" Multiplicity="1" />
-    <End Role="Orders" Type="Self.Order" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ShippingMode">
-        <PropertyRef Name="ShippingMode_Id" />
-      </Principal>
-      <Dependent Role="Orders">
-        <PropertyRef Name="ShippingMode_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityContainer Name="testAPIEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Buyers" EntityType="Self.Buyer" />
     <EntitySet Name="Factories" EntityType="Self.Factory" />
-    <EntitySet Name="Orders" EntityType="Self.Order" />
     <EntitySet Name="Security_User" EntityType="Self.Security_User" />
     <EntitySet Name="ShippingModes" EntityType="Self.ShippingMode" />
-    <AssociationSet Name="FK__Orders__Factory___0519C6AF" Association="Self.FK__Orders__Factory___0519C6AF">
-      <End Role="Factory" EntitySet="Factories" />
-      <End Role="Orders" EntitySet="Orders" />
-    </AssociationSet>
-    <AssociationSet Name="FK__Orders__Shipping__060DEAE8" Association="Self.FK__Orders__Shipping__060DEAE8">
-      <End Role="ShippingMode" EntitySet="ShippingModes" />
-      <End Role="Orders" EntitySet="Orders" />
-    </AssociationSet>
     <EntitySet Name="Security_UserSession" EntityType="testAPIModel.Security_UserSession" />
     <AssociationSet Name="FK__Security___UserI__0CBAE877" Association="testAPIModel.FK__Security___UserI__0CBAE877">
       <End Role="Security_User" EntitySet="Security_User" />
@@ -107,8 +54,17 @@
       <End Role="Security_UserSession" EntitySet="Security_UserSession" />
       <End Role="Security_User" EntitySet="Security_User" />
     </AssociationSet>
+    <EntitySet Name="Orders" EntityType="testAPIModel.Order" />
     <AssociationSet Name="FK__Orders__BuyerId__0F975522" Association="testAPIModel.FK__Orders__BuyerId__0F975522">
       <End Role="Buyer" EntitySet="Buyers" />
+      <End Role="Order" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Orders__Factory___0519C6AF" Association="testAPIModel.FK__Orders__Factory___0519C6AF">
+      <End Role="Factory" EntitySet="Factories" />
+      <End Role="Order" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Orders__Shipping__060DEAE8" Association="testAPIModel.FK__Orders__Shipping__060DEAE8">
+      <End Role="ShippingMode" EntitySet="ShippingModes" />
       <End Role="Order" EntitySet="Orders" />
     </AssociationSet>
   </EntityContainer>
@@ -146,6 +102,26 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="Order_No" />
+    </Key>
+    <Property Name="Order_No" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Style_No" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Quantity" Type="Int64" Nullable="false" />
+    <Property Name="Delivery" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Factory_Id" Type="Guid" Nullable="false" />
+    <Property Name="Purchase_Order_No" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ShippingMode_Id" Type="Guid" Nullable="false" />
+    <Property Name="Price_FOB" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+    <Property Name="Factory_Price" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+    <Property Name="Total_Value" Type="Decimal" Precision="38" Scale="4" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="Ship_Date" Type="DateTime" Precision="0" />
+    <Property Name="BuyerId" Type="Guid" />
+    <NavigationProperty Name="Buyer" Relationship="testAPIModel.FK__Orders__BuyerId__0F975522" FromRole="Order" ToRole="Buyer" />
+    <NavigationProperty Name="Factory" Relationship="testAPIModel.FK__Orders__Factory___0519C6AF" FromRole="Order" ToRole="Factory" />
+    <NavigationProperty Name="ShippingMode" Relationship="testAPIModel.FK__Orders__Shipping__060DEAE8" FromRole="Order" ToRole="ShippingMode" />
+  </EntityType>
   <Association Name="FK__Orders__BuyerId__0F975522">
     <End Type="testAPIModel.Buyer" Role="Buyer" Multiplicity="0..1" />
     <End Type="testAPIModel.Order" Role="Order" Multiplicity="*" />
@@ -155,6 +131,30 @@
       </Principal>
       <Dependent Role="Order">
         <PropertyRef Name="BuyerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Orders__Factory___0519C6AF">
+    <End Type="testAPIModel.Factory" Role="Factory" Multiplicity="1" />
+    <End Type="testAPIModel.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Factory">
+        <PropertyRef Name="Factory_Id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="Factory_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Orders__Shipping__060DEAE8">
+    <End Type="testAPIModel.ShippingMode" Role="ShippingMode" Multiplicity="1" />
+    <End Type="testAPIModel.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ShippingMode">
+        <PropertyRef Name="ShippingMode_Id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="ShippingMode_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

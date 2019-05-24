@@ -14,12 +14,12 @@ namespace OrderMgmtService.Data_Access
     
     public partial class Order
     {
-        public long Order_No { get; set; }
+        public string Order_No { get; set; }
         public string Style_No { get; set; }
         public long Quantity { get; set; }
         public System.DateTime Delivery { get; set; }
         public System.Guid Factory_Id { get; set; }
-        public long Purchase_Order_No { get; set; }
+        public string Purchase_Order_No { get; set; }
         public System.Guid ShippingMode_Id { get; set; }
         public decimal Price_FOB { get; set; }
         public decimal Factory_Price { get; set; }
@@ -27,8 +27,8 @@ namespace OrderMgmtService.Data_Access
         public Nullable<System.DateTime> Ship_Date { get; set; }
         public Nullable<System.Guid> BuyerId { get; set; }
     
+        public virtual Buyer Buyer { get; set; }
         public virtual Factory Factory { get; set; }
         public virtual ShippingMode ShippingMode { get; set; }
-        public virtual Buyer Buyer { get; set; }
     }
 }

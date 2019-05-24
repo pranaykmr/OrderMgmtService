@@ -27,9 +27,9 @@ namespace OrderMgmtService.Data_Access
     
         public virtual DbSet<Buyer> Buyers { get; set; }
         public virtual DbSet<Factory> Factories { get; set; }
-        public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Security_User> Security_User { get; set; }
         public virtual DbSet<ShippingMode> ShippingModes { get; set; }
         public virtual DbSet<Security_UserSession> Security_UserSession { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
     }
 }

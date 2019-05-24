@@ -37,7 +37,7 @@ namespace OrderMgmtService.Controllers
 
         // PUT: api/Orders/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutOrder(long id, Order order)
+        public IHttpActionResult PutOrder(string id, Order order)
         {
             if (!ModelState.IsValid)
             {
@@ -125,7 +125,7 @@ namespace OrderMgmtService.Controllers
             base.Dispose(disposing);
         }
 
-        private bool OrderExists(long id)
+        private bool OrderExists(string id)
         {
             return db.Orders.Count(e => e.Order_No == id) > 0;
         }

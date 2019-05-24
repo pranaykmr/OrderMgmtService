@@ -7,13 +7,13 @@ namespace OrderMgmtService.Models
 {
     public class OrderInfo
     {
-        public long OrderNo { get; set; }
+        public string OrderNo { get; set; }
         public string StyleNo { get; set; }
         public long Quantity { get; set; }
         public DateTime Delivery { get; set; }
         public System.Guid FactoryId { get; set; }
         public string FactoryName { get; set; }
-        public long PushraseOrderNo { get; set; }
+        public string PushraseOrderNo { get; set; }
         public System.Guid ShippingModeId { get; set; }
         public string ShippingModeName { get; set; }
         public decimal PriceFOB { get; set; }
