@@ -126,6 +126,7 @@
     <Compile Include="Controllers\BuyersController.cs" />
     <Compile Include="Controllers\FactoriesController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\OrderInfoController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\Security_UserController.cs" />
     <Compile Include="Controllers\Security_UserSessionController.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\OrderInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

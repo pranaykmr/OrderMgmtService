@@ -62,7 +62,6 @@ namespace OrderMgmtService.Controllers
                     db.SaveChanges();
                 }
             }
-
             return StatusCode(HttpStatusCode.NoContent);
         }
 
