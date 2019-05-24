@@ -130,6 +130,8 @@
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\Security_UserController.cs" />
     <Compile Include="Controllers\Security_UserSessionController.cs" />
+    <Compile Include="Controllers\ShippedByController.cs" />
+    <Compile Include="Controllers\ShippingDetailsController.cs" />
     <Compile Include="Controllers\ShippingModesController.cs" />
     <Compile Include="Data Access\Buyer.cs">
       <DependentUpon>OrderMgmtDB.tt</DependentUpon>
@@ -159,6 +161,12 @@
       <DependentUpon>OrderMgmtDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Data Access\Security_UserSession.cs">
+      <DependentUpon>OrderMgmtDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data Access\ShippedBy.cs">
+      <DependentUpon>OrderMgmtDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data Access\ShippingDetail.cs">
       <DependentUpon>OrderMgmtDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Data Access\ShippingMode.cs">

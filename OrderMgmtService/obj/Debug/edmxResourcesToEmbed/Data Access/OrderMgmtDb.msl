@@ -49,6 +49,30 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ShippedBies">
+      <EntityTypeMapping TypeName="testAPIModel.ShippedBy">
+        <MappingFragment StoreEntitySet="ShippedBy">
+          <ScalarProperty Name="ShippingMode_Id" ColumnName="ShippingMode_Id" />
+          <ScalarProperty Name="ShipperName" ColumnName="ShipperName" />
+          <ScalarProperty Name="ShipperId" ColumnName="ShipperId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ShippingDetails">
+      <EntityTypeMapping TypeName="testAPIModel.ShippingDetail">
+        <MappingFragment StoreEntitySet="ShippingDetails">
+          <ScalarProperty Name="Consigned_To" ColumnName="Consigned_To" />
+          <ScalarProperty Name="Advised" ColumnName="Advised" />
+          <ScalarProperty Name="ShippingModeId" ColumnName="ShippingModeId" />
+          <ScalarProperty Name="ShippedById" ColumnName="ShippedById" />
+          <ScalarProperty Name="Weight" ColumnName="Weight" />
+          <ScalarProperty Name="Shipping_Date" ColumnName="Shipping_Date" />
+          <ScalarProperty Name="Invoice_No" ColumnName="Invoice_No" />
+          <ScalarProperty Name="PO_No" ColumnName="PO_No" />
+          <ScalarProperty Name="Order_No" ColumnName="Order_No" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Orders">
       <EntityTypeMapping TypeName="testAPIModel.Order">
         <MappingFragment StoreEntitySet="Orders">

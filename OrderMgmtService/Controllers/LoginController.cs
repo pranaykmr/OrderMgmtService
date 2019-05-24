@@ -31,10 +31,12 @@ namespace OrderMgmtService.Controllers
                 security_User.IsActive = true;
                 security_User.ActiveToken = newToken;
                 security_User.IsDeleted = false;
-                Security_UserSession newUserSession = new Security_UserSession();
-                newUserSession.UserId = security_User.UserId;
-                newUserSession.Token = newToken;
-                newUserSession.CreatedTimestamp = DateTime.Now;
+                Security_UserSession newUserSession = new Security_UserSession()
+                {
+                    UserId = security_User.UserId,
+                    Token = newToken,
+                    CreatedTimestamp = DateTime.Now
+                };
                 OrderMgmtService.Controllers.Security_UserSessionController objectSecurityUserSession = new Security_UserSessionController();
                 objectSecurityUserSession.PostSecurity_UserSession(newUserSession);
                 objectSecurityUser.PutSecurity_User(security_User.UserId, security_User);

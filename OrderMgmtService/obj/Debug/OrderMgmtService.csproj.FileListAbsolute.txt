@@ -46,3 +46,4 @@ D:\Application\OrderMgmtService\OrderMgmtService\OrderMgmtService\bin\System.Web
 D:\Application\OrderMgmtService\OrderMgmtService\OrderMgmtService\bin\System.Web.Http.WebHost.xml
 D:\Application\OrderMgmtService\OrderMgmtService\OrderMgmtService\obj\Debug\OrderMgmtService.dll
 D:\Application\OrderMgmtService\OrderMgmtService\OrderMgmtService\obj\Debug\OrderMgmtService.pdb
+D:\Application\OrderMgmtService\OrderMgmtService\OrderMgmtService\obj\Debug\OrderMgmtService.csprojResolveAssemblyReference.cache

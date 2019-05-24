@@ -53,6 +53,36 @@
     <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="CreatedTimestamp" Type="datetime" Nullable="false" />
   </EntityType>
+  <EntityType Name="ShippedBy">
+    <Key>
+      <PropertyRef Name="ShipperId" />
+    </Key>
+    <Property Name="ShipperId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="ShipperName" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="ShippingMode_Id" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'testAPI.dbo.ShippingDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="ShippingDetails">
+    <Key>
+      <PropertyRef Name="Order_No" />
+      <PropertyRef Name="PO_No" />
+      <PropertyRef Name="Invoice_No" />
+      <PropertyRef Name="Shipping_Date" />
+      <PropertyRef Name="Weight" />
+      <PropertyRef Name="ShippedById" />
+      <PropertyRef Name="ShippingModeId" />
+    </Key>
+    <Property Name="Order_No" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="PO_No" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Invoice_No" Type="nvarchar" MaxLength="200" Nullable="false" />
+    <Property Name="Shipping_Date" Type="date" Nullable="false" />
+    <Property Name="Weight" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+    <Property Name="ShippedById" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="ShippingModeId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Advised" Type="date" />
+    <Property Name="Consigned_To" Type="nvarchar" MaxLength="200" />
+  </EntityType>
   <EntityType Name="ShippingMode">
     <Key>
       <PropertyRef Name="ShippingMode_Id" />
@@ -120,13 +150,75 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__ShippedBy__Shipp__286302EC">
+    <End Role="ShippingMode" Type="Self.ShippingMode" Multiplicity="1" />
+    <End Role="ShippedBy" Type="Self.ShippedBy" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ShippingMode">
+        <PropertyRef Name="ShippingMode_Id" />
+      </Principal>
+      <Dependent Role="ShippedBy">
+        <PropertyRef Name="ShippingMode_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ShippingD__Order__35BCFE0A">
+    <End Role="Orders" Type="Self.Orders" Multiplicity="1" />
+    <End Role="ShippingDetails" Type="Self.ShippingDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Orders">
+        <PropertyRef Name="Order_No" />
+      </Principal>
+      <Dependent Role="ShippingDetails">
+        <PropertyRef Name="Order_No" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ShippingD__Shipp__36B12243">
+    <End Role="ShippingMode" Type="Self.ShippingMode" Multiplicity="1" />
+    <End Role="ShippingDetails" Type="Self.ShippingDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ShippingMode">
+        <PropertyRef Name="ShippingMode_Id" />
+      </Principal>
+      <Dependent Role="ShippingDetails">
+        <PropertyRef Name="ShippingModeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ShippingD__Shipp__37A5467C">
+    <End Role="ShippedBy" Type="Self.ShippedBy" Multiplicity="1" />
+    <End Role="ShippingDetails" Type="Self.ShippingDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ShippedBy">
+        <PropertyRef Name="ShipperId" />
+      </Principal>
+      <Dependent Role="ShippingDetails">
+        <PropertyRef Name="ShippedById" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="testAPIModelStoreContainer">
     <EntitySet Name="Buyer" EntityType="Self.Buyer" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Factory" EntityType="Self.Factory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Security_User" EntityType="Self.Security_User" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Security_UserSession" EntityType="Self.Security_UserSession" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ShippedBy" EntityType="Self.ShippedBy" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ShippingMode" EntityType="Self.ShippingMode" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ShippingDetails" EntityType="Self.ShippingDetails" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [ShippingDetails].[Order_No] AS [Order_No], 
+    [ShippingDetails].[PO_No] AS [PO_No], 
+    [ShippingDetails].[Invoice_No] AS [Invoice_No], 
+    [ShippingDetails].[Shipping_Date] AS [Shipping_Date], 
+    [ShippingDetails].[Weight] AS [Weight], 
+    [ShippingDetails].[ShippedById] AS [ShippedById], 
+    [ShippingDetails].[ShippingModeId] AS [ShippingModeId], 
+    [ShippingDetails].[Advised] AS [Advised], 
+    [ShippingDetails].[Consigned_To] AS [Consigned_To]
+    FROM [dbo].[ShippingDetails] AS [ShippingDetails]</DefiningQuery>
+    </EntitySet>
     <AssociationSet Name="FK__Orders__BuyerId__0F975522" Association="Self.FK__Orders__BuyerId__0F975522">
       <End Role="Buyer" EntitySet="Buyer" />
       <End Role="Orders" EntitySet="Orders" />
@@ -146,6 +238,22 @@
     <AssociationSet Name="FK__Security___UserI__0CBAE877" Association="Self.FK__Security___UserI__0CBAE877">
       <End Role="Security_User" EntitySet="Security_User" />
       <End Role="Security_UserSession" EntitySet="Security_UserSession" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ShippedBy__Shipp__286302EC" Association="Self.FK__ShippedBy__Shipp__286302EC">
+      <End Role="ShippingMode" EntitySet="ShippingMode" />
+      <End Role="ShippedBy" EntitySet="ShippedBy" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ShippingD__Order__35BCFE0A" Association="Self.FK__ShippingD__Order__35BCFE0A">
+      <End Role="Orders" EntitySet="Orders" />
+      <End Role="ShippingDetails" EntitySet="ShippingDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ShippingD__Shipp__36B12243" Association="Self.FK__ShippingD__Shipp__36B12243">
+      <End Role="ShippingMode" EntitySet="ShippingMode" />
+      <End Role="ShippingDetails" EntitySet="ShippingDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ShippingD__Shipp__37A5467C" Association="Self.FK__ShippingD__Shipp__37A5467C">
+      <End Role="ShippedBy" EntitySet="ShippedBy" />
+      <End Role="ShippingDetails" EntitySet="ShippingDetails" />
     </AssociationSet>
   </EntityContainer>
 </Schema>
