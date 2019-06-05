@@ -38,7 +38,6 @@
     </Key>
     <Property Name="ShippingMode_Id" Type="Guid" Nullable="false" />
     <Property Name="ShippingModeName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="ShippedBies" Relationship="testAPIModel.FK__ShippedBy__Shipp__286302EC" FromRole="ShippingMode" ToRole="ShippedBy" />
     <NavigationProperty Name="ShippingDetails" Relationship="testAPIModel.FK__ShippingD__Shipp__36B12243" FromRole="ShippingMode" ToRole="ShippingDetail" />
     <NavigationProperty Name="Orders" Relationship="testAPIModel.FK__Orders__Shipping__060DEAE8" FromRole="ShippingMode" ToRole="Order" />
   </EntityType>
@@ -56,16 +55,7 @@
       <End Role="Security_UserSession" EntitySet="Security_UserSession" />
       <End Role="Security_User" EntitySet="Security_User" />
     </AssociationSet>
-    <EntitySet Name="ShippedBies" EntityType="testAPIModel.ShippedBy" />
-    <AssociationSet Name="FK__ShippedBy__Shipp__286302EC" Association="testAPIModel.FK__ShippedBy__Shipp__286302EC">
-      <End Role="ShippingMode" EntitySet="ShippingModes" />
-      <End Role="ShippedBy" EntitySet="ShippedBies" />
-    </AssociationSet>
     <EntitySet Name="ShippingDetails" EntityType="testAPIModel.ShippingDetail" />
-    <AssociationSet Name="FK__ShippingD__Shipp__37A5467C" Association="testAPIModel.FK__ShippingD__Shipp__37A5467C">
-      <End Role="ShippedBy" EntitySet="ShippedBies" />
-      <End Role="ShippingDetail" EntitySet="ShippingDetails" />
-    </AssociationSet>
     <AssociationSet Name="FK__ShippingD__Shipp__36B12243" Association="testAPIModel.FK__ShippingD__Shipp__36B12243">
       <End Role="ShippingMode" EntitySet="ShippingModes" />
       <End Role="ShippingDetail" EntitySet="ShippingDetails" />
@@ -85,6 +75,11 @@
     </AssociationSet>
     <AssociationSet Name="FK__ShippingD__Order__35BCFE0A" Association="testAPIModel.FK__ShippingD__Order__35BCFE0A">
       <End Role="Order" EntitySet="Orders" />
+      <End Role="ShippingDetail" EntitySet="ShippingDetails" />
+    </AssociationSet>
+    <EntitySet Name="ShippedBies" EntityType="testAPIModel.ShippedBy" />
+    <AssociationSet Name="FK__ShippingD__Shipp__37A5467C" Association="testAPIModel.FK__ShippingD__Shipp__37A5467C">
+      <End Role="ShippedBy" EntitySet="ShippedBies" />
       <End Role="ShippingDetail" EntitySet="ShippingDetails" />
     </AssociationSet>
   </EntityContainer>
@@ -122,28 +117,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityType Name="ShippedBy">
-    <Key>
-      <PropertyRef Name="ShipperId" />
-    </Key>
-    <Property Name="ShipperId" Type="Guid" Nullable="false" />
-    <Property Name="ShipperName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-    <Property Name="ShippingMode_Id" Type="Guid" Nullable="false" />
-    <NavigationProperty Name="ShippingMode" Relationship="testAPIModel.FK__ShippedBy__Shipp__286302EC" FromRole="ShippedBy" ToRole="ShippingMode" />
-    <NavigationProperty Name="ShippingDetails" Relationship="testAPIModel.FK__ShippingD__Shipp__37A5467C" FromRole="ShippedBy" ToRole="ShippingDetail" />
-  </EntityType>
-  <Association Name="FK__ShippedBy__Shipp__286302EC">
-    <End Type="testAPIModel.ShippingMode" Role="ShippingMode" Multiplicity="1" />
-    <End Type="testAPIModel.ShippedBy" Role="ShippedBy" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ShippingMode">
-        <PropertyRef Name="ShippingMode_Id" />
-      </Principal>
-      <Dependent Role="ShippedBy">
-        <PropertyRef Name="ShippingMode_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityType Name="ShippingDetail">
     <Key>
       <PropertyRef Name="Order_No" />
@@ -163,22 +136,11 @@
     <Property Name="ShippingModeId" Type="Guid" Nullable="false" />
     <Property Name="Advised" Type="DateTime" Precision="0" />
     <Property Name="Consigned_To" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="ShippedBy" Relationship="testAPIModel.FK__ShippingD__Shipp__37A5467C" FromRole="ShippingDetail" ToRole="ShippedBy" />
     <NavigationProperty Name="ShippingMode" Relationship="testAPIModel.FK__ShippingD__Shipp__36B12243" FromRole="ShippingDetail" ToRole="ShippingMode" />
     <NavigationProperty Name="Order" Relationship="testAPIModel.FK__ShippingD__Order__35BCFE0A" FromRole="ShippingDetail" ToRole="Order" />
+    <NavigationProperty Name="ShippedBy" Relationship="testAPIModel.FK__ShippingD__Shipp__37A5467C" FromRole="ShippingDetail" ToRole="ShippedBy" />
+    <Property Name="Quantity" Type="Decimal" Precision="18" Scale="0" />
   </EntityType>
-  <Association Name="FK__ShippingD__Shipp__37A5467C">
-    <End Type="testAPIModel.ShippedBy" Role="ShippedBy" Multiplicity="1" />
-    <End Type="testAPIModel.ShippingDetail" Role="ShippingDetail" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ShippedBy">
-        <PropertyRef Name="ShipperId" />
-      </Principal>
-      <Dependent Role="ShippingDetail">
-        <PropertyRef Name="ShippedById" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK__ShippingD__Shipp__36B12243">
     <End Type="testAPIModel.ShippingMode" Role="ShippingMode" Multiplicity="1" />
     <End Type="testAPIModel.ShippingDetail" Role="ShippingDetail" Multiplicity="*" />
@@ -257,6 +219,26 @@
       </Principal>
       <Dependent Role="ShippingDetail">
         <PropertyRef Name="Order_No" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="ShippedBy">
+    <Key>
+      <PropertyRef Name="ShipperId" />
+    </Key>
+    <Property Name="ShipperId" Type="Guid" Nullable="false" />
+    <Property Name="ShipperName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ShippingDetails" Relationship="testAPIModel.FK__ShippingD__Shipp__37A5467C" FromRole="ShippedBy" ToRole="ShippingDetail" />
+  </EntityType>
+  <Association Name="FK__ShippingD__Shipp__37A5467C">
+    <End Type="testAPIModel.ShippedBy" Role="ShippedBy" Multiplicity="1" />
+    <End Type="testAPIModel.ShippingDetail" Role="ShippingDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ShippedBy">
+        <PropertyRef Name="ShipperId" />
+      </Principal>
+      <Dependent Role="ShippingDetail">
+        <PropertyRef Name="ShippedById" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

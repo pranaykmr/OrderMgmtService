@@ -59,7 +59,6 @@
     </Key>
     <Property Name="ShipperId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="ShipperName" Type="nvarchar" MaxLength="200" Nullable="false" />
-    <Property Name="ShippingMode_Id" Type="uniqueidentifier" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'testAPI.dbo.ShippingDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -82,6 +81,7 @@ warning 6002: The table/view 'testAPI.dbo.ShippingDetails' does not have a prima
     <Property Name="ShippingModeId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="Advised" Type="date" />
     <Property Name="Consigned_To" Type="nvarchar" MaxLength="200" />
+    <Property Name="Quantity" Type="numeric" Precision="18" Scale="0" />
   </EntityType>
   <EntityType Name="ShippingMode">
     <Key>
@@ -150,18 +150,6 @@ warning 6002: The table/view 'testAPI.dbo.ShippingDetails' does not have a prima
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK__ShippedBy__Shipp__286302EC">
-    <End Role="ShippingMode" Type="Self.ShippingMode" Multiplicity="1" />
-    <End Role="ShippedBy" Type="Self.ShippedBy" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ShippingMode">
-        <PropertyRef Name="ShippingMode_Id" />
-      </Principal>
-      <Dependent Role="ShippedBy">
-        <PropertyRef Name="ShippingMode_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK__ShippingD__Order__35BCFE0A">
     <End Role="Orders" Type="Self.Orders" Multiplicity="1" />
     <End Role="ShippingDetails" Type="Self.ShippingDetails" Multiplicity="*" />
@@ -216,7 +204,8 @@ warning 6002: The table/view 'testAPI.dbo.ShippingDetails' does not have a prima
     [ShippingDetails].[ShippedById] AS [ShippedById], 
     [ShippingDetails].[ShippingModeId] AS [ShippingModeId], 
     [ShippingDetails].[Advised] AS [Advised], 
-    [ShippingDetails].[Consigned_To] AS [Consigned_To]
+    [ShippingDetails].[Consigned_To] AS [Consigned_To], 
+    [ShippingDetails].[Quantity] AS [Quantity]
     FROM [dbo].[ShippingDetails] AS [ShippingDetails]</DefiningQuery>
     </EntitySet>
     <AssociationSet Name="FK__Orders__BuyerId__0F975522" Association="Self.FK__Orders__BuyerId__0F975522">
@@ -238,10 +227,6 @@ warning 6002: The table/view 'testAPI.dbo.ShippingDetails' does not have a prima
     <AssociationSet Name="FK__Security___UserI__0CBAE877" Association="Self.FK__Security___UserI__0CBAE877">
       <End Role="Security_User" EntitySet="Security_User" />
       <End Role="Security_UserSession" EntitySet="Security_UserSession" />
-    </AssociationSet>
-    <AssociationSet Name="FK__ShippedBy__Shipp__286302EC" Association="Self.FK__ShippedBy__Shipp__286302EC">
-      <End Role="ShippingMode" EntitySet="ShippingMode" />
-      <End Role="ShippedBy" EntitySet="ShippedBy" />
     </AssociationSet>
     <AssociationSet Name="FK__ShippingD__Order__35BCFE0A" Association="Self.FK__ShippingD__Order__35BCFE0A">
       <End Role="Orders" EntitySet="Orders" />

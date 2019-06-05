@@ -22,9 +22,7 @@ namespace OrderMgmtService.Data_Access
     
         public System.Guid ShipperId { get; set; }
         public string ShipperName { get; set; }
-        public System.Guid ShippingMode_Id { get; set; }
     
-        public virtual ShippingMode ShippingMode { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ShippingDetail> ShippingDetails { get; set; }
     }

@@ -17,7 +17,6 @@ namespace OrderMgmtService.Data_Access
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ShippingMode()
         {
-            this.ShippedBies = new HashSet<ShippedBy>();
             this.ShippingDetails = new HashSet<ShippingDetail>();
             this.Orders = new HashSet<Order>();
         }
@@ -25,8 +24,6 @@ namespace OrderMgmtService.Data_Access
         public System.Guid ShippingMode_Id { get; set; }
         public string ShippingModeName { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ShippedBy> ShippedBies { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ShippingDetail> ShippingDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
