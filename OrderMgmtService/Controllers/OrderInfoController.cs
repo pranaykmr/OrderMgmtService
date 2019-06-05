@@ -50,7 +50,7 @@ namespace OrderMgmtService.Controllers
                                  join f in db.Factories on o.Factory_Id equals f.Factory_Id
                                  join b in db.Buyers on o.BuyerId equals b.BuyerId
                                  join s in db.ShippingModes on o.ShippingMode_Id equals s.ShippingMode_Id
-                                 where o.Ship_Date != null
+                                 where o.Ship_Date == null
                                  orderby o.Delivery descending
                                  select new OrderInfo
                                  {
