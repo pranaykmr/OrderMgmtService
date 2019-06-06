@@ -12,15 +12,15 @@
         <EntityTypeShape EntityType="testAPIModel.Security_UserSession" Width="1.5" PointX="5" PointY="6" />
         <AssociationConnector Association="testAPIModel.FK__Security___UserI__0CBAE877" />
         <AssociationConnector Association="testAPIModel.FK__Security___Activ__0DAF0CB0" />
-        <EntityTypeShape EntityType="testAPIModel.ShippingDetail" Width="1.5" PointX="8" PointY="4.375" />
-        <AssociationConnector Association="testAPIModel.FK__ShippingD__Shipp__36B12243" />
         <EntityTypeShape EntityType="testAPIModel.Order" Width="1.5" PointX="3.125" PointY="0.625" />
         <AssociationConnector Association="testAPIModel.FK__Orders__BuyerId__0F975522" />
         <AssociationConnector Association="testAPIModel.FK__Orders__Factory___0519C6AF" />
         <AssociationConnector Association="testAPIModel.FK__Orders__Shipping__060DEAE8" />
-        <AssociationConnector Association="testAPIModel.FK__ShippingD__Order__35BCFE0A" />
         <EntityTypeShape EntityType="testAPIModel.ShippedBy" Width="1.5" PointX="8.375" PointY="0.875" />
+        <EntityTypeShape EntityType="testAPIModel.ShippingDetail" Width="1.5" PointX="10.625" PointY="2.375" />
+        <AssociationConnector Association="testAPIModel.FK__ShippingD__Order__35BCFE0A" />
         <AssociationConnector Association="testAPIModel.FK__ShippingD__Shipp__37A5467C" />
+        <AssociationConnector Association="testAPIModel.FK__ShippingD__Shipp__36B12243" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

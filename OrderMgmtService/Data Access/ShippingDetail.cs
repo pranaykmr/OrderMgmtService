@@ -24,9 +24,10 @@ namespace OrderMgmtService.Data_Access
         public Nullable<System.DateTime> Advised { get; set; }
         public string Consigned_To { get; set; }
         public Nullable<decimal> Quantity { get; set; }
+        public int ID { get; set; }
     
-        public virtual ShippingMode ShippingMode { get; set; }
         public virtual Order Order { get; set; }
         public virtual ShippedBy ShippedBy { get; set; }
+        public virtual ShippingMode ShippingMode { get; set; }
     }
 }

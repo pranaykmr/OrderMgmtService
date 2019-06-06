@@ -61,17 +61,9 @@
     <Property Name="ShipperId" Type="uniqueidentifier" Nullable="false" />
     <Property Name="ShipperName" Type="nvarchar" MaxLength="200" Nullable="false" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'testAPI.dbo.ShippingDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="ShippingDetails">
     <Key>
-      <PropertyRef Name="Order_No" />
-      <PropertyRef Name="PO_No" />
-      <PropertyRef Name="Invoice_No" />
-      <PropertyRef Name="Shipping_Date" />
-      <PropertyRef Name="Weight" />
-      <PropertyRef Name="ShippedById" />
-      <PropertyRef Name="ShippingModeId" />
+      <PropertyRef Name="ID" />
     </Key>
     <Property Name="Order_No" Type="nvarchar" MaxLength="200" Nullable="false" />
     <Property Name="PO_No" Type="nvarchar" MaxLength="200" Nullable="false" />
@@ -83,6 +75,7 @@ warning 6002: The table/view 'testAPI.dbo.ShippingDetails' does not have a prima
     <Property Name="Advised" Type="date" />
     <Property Name="Consigned_To" Type="nvarchar" MaxLength="200" />
     <Property Name="Quantity" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
   <EntityType Name="ShippingMode">
     <Key>
@@ -194,21 +187,8 @@ warning 6002: The table/view 'testAPI.dbo.ShippingDetails' does not have a prima
     <EntitySet Name="Security_User" EntityType="Self.Security_User" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Security_UserSession" EntityType="Self.Security_UserSession" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ShippedBy" EntityType="Self.ShippedBy" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ShippingDetails" EntityType="Self.ShippingDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ShippingMode" EntityType="Self.ShippingMode" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="ShippingDetails" EntityType="Self.ShippingDetails" store:Type="Tables" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-    [ShippingDetails].[Order_No] AS [Order_No], 
-    [ShippingDetails].[PO_No] AS [PO_No], 
-    [ShippingDetails].[Invoice_No] AS [Invoice_No], 
-    [ShippingDetails].[Shipping_Date] AS [Shipping_Date], 
-    [ShippingDetails].[Weight] AS [Weight], 
-    [ShippingDetails].[ShippedById] AS [ShippedById], 
-    [ShippingDetails].[ShippingModeId] AS [ShippingModeId], 
-    [ShippingDetails].[Advised] AS [Advised], 
-    [ShippingDetails].[Consigned_To] AS [Consigned_To], 
-    [ShippingDetails].[Quantity] AS [Quantity]
-    FROM [dbo].[ShippingDetails] AS [ShippingDetails]</DefiningQuery>
-    </EntitySet>
     <AssociationSet Name="FK__Orders__BuyerId__0F975522" Association="Self.FK__Orders__BuyerId__0F975522">
       <End Role="Buyer" EntitySet="Buyer" />
       <End Role="Orders" EntitySet="Orders" />

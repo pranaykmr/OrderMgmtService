@@ -66,17 +66,9 @@
           <Property Name="ShipperId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="ShipperName" Type="nvarchar" MaxLength="200" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'testAPI.dbo.ShippingDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ShippingDetails">
           <Key>
-            <PropertyRef Name="Order_No" />
-            <PropertyRef Name="PO_No" />
-            <PropertyRef Name="Invoice_No" />
-            <PropertyRef Name="Shipping_Date" />
-            <PropertyRef Name="Weight" />
-            <PropertyRef Name="ShippedById" />
-            <PropertyRef Name="ShippingModeId" />
+            <PropertyRef Name="ID" />
           </Key>
           <Property Name="Order_No" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="PO_No" Type="nvarchar" MaxLength="200" Nullable="false" />
@@ -88,6 +80,7 @@ warning 6002: The table/view 'testAPI.dbo.ShippingDetails' does not have a prima
           <Property Name="Advised" Type="date" />
           <Property Name="Consigned_To" Type="nvarchar" MaxLength="200" />
           <Property Name="Quantity" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="ShippingMode">
           <Key>
@@ -199,21 +192,8 @@ warning 6002: The table/view 'testAPI.dbo.ShippingDetails' does not have a prima
           <EntitySet Name="Security_User" EntityType="Self.Security_User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Security_UserSession" EntityType="Self.Security_UserSession" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ShippedBy" EntityType="Self.ShippedBy" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShippingDetails" EntityType="Self.ShippingDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ShippingMode" EntityType="Self.ShippingMode" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ShippingDetails" EntityType="Self.ShippingDetails" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [ShippingDetails].[Order_No] AS [Order_No], 
-    [ShippingDetails].[PO_No] AS [PO_No], 
-    [ShippingDetails].[Invoice_No] AS [Invoice_No], 
-    [ShippingDetails].[Shipping_Date] AS [Shipping_Date], 
-    [ShippingDetails].[Weight] AS [Weight], 
-    [ShippingDetails].[ShippedById] AS [ShippedById], 
-    [ShippingDetails].[ShippingModeId] AS [ShippingModeId], 
-    [ShippingDetails].[Advised] AS [Advised], 
-    [ShippingDetails].[Consigned_To] AS [Consigned_To], 
-    [ShippingDetails].[Quantity] AS [Quantity]
-    FROM [dbo].[ShippingDetails] AS [ShippingDetails]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK__Orders__BuyerId__0F975522" Association="Self.FK__Orders__BuyerId__0F975522">
             <End Role="Buyer" EntitySet="Buyer" />
             <End Role="Orders" EntitySet="Orders" />
@@ -289,8 +269,8 @@ warning 6002: The table/view 'testAPI.dbo.ShippingDetails' does not have a prima
           </Key>
           <Property Name="ShippingMode_Id" Type="Guid" Nullable="false" />
           <Property Name="ShippingModeName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="ShippingDetails" Relationship="testAPIModel.FK__ShippingD__Shipp__36B12243" FromRole="ShippingMode" ToRole="ShippingDetail" />
           <NavigationProperty Name="Orders" Relationship="testAPIModel.FK__Orders__Shipping__060DEAE8" FromRole="ShippingMode" ToRole="Order" />
+          <NavigationProperty Name="ShippingDetails" Relationship="testAPIModel.FK__ShippingD__Shipp__36B12243" FromRole="ShippingMode" ToRole="ShippingDetail" />
         </EntityType>
         <EntityContainer Name="testAPIEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Buyers" EntityType="Self.Buyer" />
@@ -306,11 +286,6 @@ warning 6002: The table/view 'testAPI.dbo.ShippingDetails' does not have a prima
             <End Role="Security_UserSession" EntitySet="Security_UserSession" />
             <End Role="Security_User" EntitySet="Security_User" />
           </AssociationSet>
-          <EntitySet Name="ShippingDetails" EntityType="testAPIModel.ShippingDetail" />
-          <AssociationSet Name="FK__ShippingD__Shipp__36B12243" Association="testAPIModel.FK__ShippingD__Shipp__36B12243">
-            <End Role="ShippingMode" EntitySet="ShippingModes" />
-            <End Role="ShippingDetail" EntitySet="ShippingDetails" />
-          </AssociationSet>
           <EntitySet Name="Orders" EntityType="testAPIModel.Order" />
           <AssociationSet Name="FK__Orders__BuyerId__0F975522" Association="testAPIModel.FK__Orders__BuyerId__0F975522">
             <End Role="Buyer" EntitySet="Buyers" />
@@ -324,13 +299,18 @@ warning 6002: The table/view 'testAPI.dbo.ShippingDetails' does not have a prima
             <End Role="ShippingMode" EntitySet="ShippingModes" />
             <End Role="Order" EntitySet="Orders" />
           </AssociationSet>
+          <EntitySet Name="ShippedBies" EntityType="testAPIModel.ShippedBy" />
+          <EntitySet Name="ShippingDetails" EntityType="testAPIModel.ShippingDetail" />
           <AssociationSet Name="FK__ShippingD__Order__35BCFE0A" Association="testAPIModel.FK__ShippingD__Order__35BCFE0A">
             <End Role="Order" EntitySet="Orders" />
             <End Role="ShippingDetail" EntitySet="ShippingDetails" />
           </AssociationSet>
-          <EntitySet Name="ShippedBies" EntityType="testAPIModel.ShippedBy" />
           <AssociationSet Name="FK__ShippingD__Shipp__37A5467C" Association="testAPIModel.FK__ShippingD__Shipp__37A5467C">
             <End Role="ShippedBy" EntitySet="ShippedBies" />
+            <End Role="ShippingDetail" EntitySet="ShippingDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ShippingD__Shipp__36B12243" Association="testAPIModel.FK__ShippingD__Shipp__36B12243">
+            <End Role="ShippingMode" EntitySet="ShippingModes" />
             <End Role="ShippingDetail" EntitySet="ShippingDetails" />
           </AssociationSet>
           </EntityContainer>
@@ -368,42 +348,6 @@ warning 6002: The table/view 'testAPI.dbo.ShippingDetails' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="ShippingDetail">
-          <Key>
-            <PropertyRef Name="Order_No" />
-            <PropertyRef Name="PO_No" />
-            <PropertyRef Name="Invoice_No" />
-            <PropertyRef Name="Shipping_Date" />
-            <PropertyRef Name="Weight" />
-            <PropertyRef Name="ShippedById" />
-            <PropertyRef Name="ShippingModeId" />
-          </Key>
-          <Property Name="Order_No" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="PO_No" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Invoice_No" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Shipping_Date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Weight" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
-          <Property Name="ShippedById" Type="Guid" Nullable="false" />
-          <Property Name="ShippingModeId" Type="Guid" Nullable="false" />
-          <Property Name="Advised" Type="DateTime" Precision="0" />
-          <Property Name="Consigned_To" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ShippingMode" Relationship="testAPIModel.FK__ShippingD__Shipp__36B12243" FromRole="ShippingDetail" ToRole="ShippingMode" />
-          <NavigationProperty Name="Order" Relationship="testAPIModel.FK__ShippingD__Order__35BCFE0A" FromRole="ShippingDetail" ToRole="Order" />
-          <NavigationProperty Name="ShippedBy" Relationship="testAPIModel.FK__ShippingD__Shipp__37A5467C" FromRole="ShippingDetail" ToRole="ShippedBy" />
-          <Property Name="Quantity" Type="Decimal" Precision="18" Scale="0" />
-        </EntityType>
-        <Association Name="FK__ShippingD__Shipp__36B12243">
-          <End Type="testAPIModel.ShippingMode" Role="ShippingMode" Multiplicity="1" />
-          <End Type="testAPIModel.ShippingDetail" Role="ShippingDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ShippingMode">
-              <PropertyRef Name="ShippingMode_Id" />
-            </Principal>
-            <Dependent Role="ShippingDetail">
-              <PropertyRef Name="ShippingModeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Order">
           <Key>
             <PropertyRef Name="Order_No" />
@@ -423,8 +367,8 @@ warning 6002: The table/view 'testAPI.dbo.ShippingDetails' does not have a prima
           <NavigationProperty Name="Buyer" Relationship="testAPIModel.FK__Orders__BuyerId__0F975522" FromRole="Order" ToRole="Buyer" />
           <NavigationProperty Name="Factory" Relationship="testAPIModel.FK__Orders__Factory___0519C6AF" FromRole="Order" ToRole="Factory" />
           <NavigationProperty Name="ShippingMode" Relationship="testAPIModel.FK__Orders__Shipping__060DEAE8" FromRole="Order" ToRole="ShippingMode" />
-          <NavigationProperty Name="ShippingDetails" Relationship="testAPIModel.FK__ShippingD__Order__35BCFE0A" FromRole="Order" ToRole="ShippingDetail" />
           <Property Name="QuantityShipped" Type="Decimal" Precision="18" Scale="4" />
+          <NavigationProperty Name="ShippingDetails" Relationship="testAPIModel.FK__ShippingD__Order__35BCFE0A" FromRole="Order" ToRole="ShippingDetail" />
         </EntityType>
         <Association Name="FK__Orders__BuyerId__0F975522">
           <End Type="testAPIModel.Buyer" Role="Buyer" Multiplicity="0..1" />
@@ -462,6 +406,33 @@ warning 6002: The table/view 'testAPI.dbo.ShippingDetails' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ShippedBy">
+          <Key>
+            <PropertyRef Name="ShipperId" />
+          </Key>
+          <Property Name="ShipperId" Type="Guid" Nullable="false" />
+          <Property Name="ShipperName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ShippingDetails" Relationship="testAPIModel.FK__ShippingD__Shipp__37A5467C" FromRole="ShippedBy" ToRole="ShippingDetail" />
+        </EntityType>
+        <EntityType Name="ShippingDetail">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Order_No" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PO_No" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Invoice_No" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Shipping_Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Weight" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
+          <Property Name="ShippedById" Type="Guid" Nullable="false" />
+          <Property Name="ShippingModeId" Type="Guid" Nullable="false" />
+          <Property Name="Advised" Type="DateTime" Precision="0" />
+          <Property Name="Consigned_To" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Quantity" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Order" Relationship="testAPIModel.FK__ShippingD__Order__35BCFE0A" FromRole="ShippingDetail" ToRole="Order" />
+          <NavigationProperty Name="ShippedBy" Relationship="testAPIModel.FK__ShippingD__Shipp__37A5467C" FromRole="ShippingDetail" ToRole="ShippedBy" />
+          <NavigationProperty Name="ShippingMode" Relationship="testAPIModel.FK__ShippingD__Shipp__36B12243" FromRole="ShippingDetail" ToRole="ShippingMode" />
+        </EntityType>
         <Association Name="FK__ShippingD__Order__35BCFE0A">
           <End Type="testAPIModel.Order" Role="Order" Multiplicity="1" />
           <End Type="testAPIModel.ShippingDetail" Role="ShippingDetail" Multiplicity="*" />
@@ -474,14 +445,6 @@ warning 6002: The table/view 'testAPI.dbo.ShippingDetails' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="ShippedBy">
-          <Key>
-            <PropertyRef Name="ShipperId" />
-          </Key>
-          <Property Name="ShipperId" Type="Guid" Nullable="false" />
-          <Property Name="ShipperName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ShippingDetails" Relationship="testAPIModel.FK__ShippingD__Shipp__37A5467C" FromRole="ShippedBy" ToRole="ShippingDetail" />
-        </EntityType>
         <Association Name="FK__ShippingD__Shipp__37A5467C">
           <End Type="testAPIModel.ShippedBy" Role="ShippedBy" Multiplicity="1" />
           <End Type="testAPIModel.ShippingDetail" Role="ShippingDetail" Multiplicity="*" />
@@ -491,6 +454,18 @@ warning 6002: The table/view 'testAPI.dbo.ShippingDetails' does not have a prima
             </Principal>
             <Dependent Role="ShippingDetail">
               <PropertyRef Name="ShippedById" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ShippingD__Shipp__36B12243">
+          <End Type="testAPIModel.ShippingMode" Role="ShippingMode" Multiplicity="1" />
+          <End Type="testAPIModel.ShippingDetail" Role="ShippingDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShippingMode">
+              <PropertyRef Name="ShippingMode_Id" />
+            </Principal>
+            <Dependent Role="ShippingDetail">
+              <PropertyRef Name="ShippingModeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -548,22 +523,6 @@ warning 6002: The table/view 'testAPI.dbo.ShippingDetails' does not have a prima
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ShippingDetails">
-            <EntityTypeMapping TypeName="testAPIModel.ShippingDetail">
-              <MappingFragment StoreEntitySet="ShippingDetails">
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="Consigned_To" ColumnName="Consigned_To" />
-                <ScalarProperty Name="Advised" ColumnName="Advised" />
-                <ScalarProperty Name="ShippingModeId" ColumnName="ShippingModeId" />
-                <ScalarProperty Name="ShippedById" ColumnName="ShippedById" />
-                <ScalarProperty Name="Weight" ColumnName="Weight" />
-                <ScalarProperty Name="Shipping_Date" ColumnName="Shipping_Date" />
-                <ScalarProperty Name="Invoice_No" ColumnName="Invoice_No" />
-                <ScalarProperty Name="PO_No" ColumnName="PO_No" />
-                <ScalarProperty Name="Order_No" ColumnName="Order_No" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="testAPIModel.Order">
               <MappingFragment StoreEntitySet="Orders">
@@ -588,6 +547,23 @@ warning 6002: The table/view 'testAPI.dbo.ShippingDetails' does not have a prima
               <MappingFragment StoreEntitySet="ShippedBy">
                 <ScalarProperty Name="ShipperName" ColumnName="ShipperName" />
                 <ScalarProperty Name="ShipperId" ColumnName="ShipperId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ShippingDetails">
+            <EntityTypeMapping TypeName="testAPIModel.ShippingDetail">
+              <MappingFragment StoreEntitySet="ShippingDetails">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Consigned_To" ColumnName="Consigned_To" />
+                <ScalarProperty Name="Advised" ColumnName="Advised" />
+                <ScalarProperty Name="ShippingModeId" ColumnName="ShippingModeId" />
+                <ScalarProperty Name="ShippedById" ColumnName="ShippedById" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Shipping_Date" ColumnName="Shipping_Date" />
+                <ScalarProperty Name="Invoice_No" ColumnName="Invoice_No" />
+                <ScalarProperty Name="PO_No" ColumnName="PO_No" />
+                <ScalarProperty Name="Order_No" ColumnName="Order_No" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

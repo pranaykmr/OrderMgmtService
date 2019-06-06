@@ -18,24 +18,36 @@ namespace OrderMgmtService.Controllers
         [ResponseType(typeof(bool))]
         [ActionName("SaveShippingInfo")]
         [HttpPost]
-        public IHttpActionResult SaveShippingInfo(List<ShipOrder> orderinfo, ShippingDetail shippingdetails)
+        public IHttpActionResult SaveShippingInfo(AddShippingInfo data)
         {
-            foreach (var item in orderinfo)
+            foreach (var item in data.orderinfo)
             {
-                shippingdetails.Order_No = item.OrderNo;
-                shippingdetails.PO_No = item.PushraseOrderNo;
-                shippingdetails.Quantity = item.Quantity;
-                shippingdetails.Weight = item.Weight;
+                data.shippingdetails.Order_No = item.OrderNo;
+                data.shippingdetails.PO_No = item.PushraseOrderNo;
+                data.shippingdetails.Quantity = item.Quantity;
+                data.shippingdetails.Weight = item.Weight;
 
-                db.ShippingDetails.Add(shippingdetails);
+                db.ShippingDetails.Add(data.shippingdetails);
 
+                
+                Order order = db.Orders.Find(item.OrderNo);
+                if (order.QuantityShipped == null)
+                    order.QuantityShipped = 0;
+                if (item.IsFullyShipped)
+                {
+                    order.Ship_Date = data.shippingdetails.Shipping_Date;
+                    order.QuantityShipped = order.Quantity;
+                }
+                else
+                    order.QuantityShipped += item.Quantity;
+                db.Entry(order).State = EntityState.Modified;
                 try
                 {
                     db.SaveChanges();
                 }
-                catch (DbUpdateException)
+                catch (Exception ex)
                 {
-                    if (ShippingDetailExists(shippingdetails.Order_No))
+                    if (ShippingDetailExists(data.shippingdetails.Order_No))
                     {
                         //return Conflict();
                     }
@@ -44,25 +56,8 @@ namespace OrderMgmtService.Controllers
                         //throw;
                     }
                 }
-                Order order = db.Orders.Find(item.OrderNo);
-                if (order.QuantityShipped == null)
-                    order.QuantityShipped = 0;
-                if (item.IsFullyShipped)
-                    order.Ship_Date = shippingdetails.Shipping_Date;
-                else
-                    order.QuantityShipped += item.Quantity;
-                db.Orders.Attach(order);
-                db.Entry(order).Property(x => x.Ship_Date).IsModified = true;
-                try
-                {
-                    db.SaveChanges();
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
             }
+            
             return Ok(true);
         }
 
