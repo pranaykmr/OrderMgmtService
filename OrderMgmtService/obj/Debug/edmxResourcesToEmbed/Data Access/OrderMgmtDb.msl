@@ -68,6 +68,7 @@
     <EntitySetMapping Name="Orders">
       <EntityTypeMapping TypeName="testAPIModel.Order">
         <MappingFragment StoreEntitySet="Orders">
+          <ScalarProperty Name="QuantityShipped" ColumnName="QuantityShipped" />
           <ScalarProperty Name="BuyerId" ColumnName="BuyerId" />
           <ScalarProperty Name="Ship_Date" ColumnName="Ship_Date" />
           <ScalarProperty Name="Total_Value" ColumnName="Total_Value" />

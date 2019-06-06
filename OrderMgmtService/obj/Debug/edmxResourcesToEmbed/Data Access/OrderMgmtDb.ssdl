@@ -32,6 +32,7 @@
     <Property Name="Total_Value" Type="decimal" Precision="38" Scale="4" StoreGeneratedPattern="Computed" />
     <Property Name="Ship_Date" Type="date" />
     <Property Name="BuyerId" Type="uniqueidentifier" />
+    <Property Name="QuantityShipped" Type="decimal" Precision="18" Scale="4" />
   </EntityType>
   <EntityType Name="Security_User">
     <Key>

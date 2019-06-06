@@ -173,6 +173,7 @@
     <NavigationProperty Name="Factory" Relationship="testAPIModel.FK__Orders__Factory___0519C6AF" FromRole="Order" ToRole="Factory" />
     <NavigationProperty Name="ShippingMode" Relationship="testAPIModel.FK__Orders__Shipping__060DEAE8" FromRole="Order" ToRole="ShippingMode" />
     <NavigationProperty Name="ShippingDetails" Relationship="testAPIModel.FK__ShippingD__Order__35BCFE0A" FromRole="Order" ToRole="ShippingDetail" />
+    <Property Name="QuantityShipped" Type="Decimal" Precision="18" Scale="4" />
   </EntityType>
   <Association Name="FK__Orders__BuyerId__0F975522">
     <End Type="testAPIModel.Buyer" Role="Buyer" Multiplicity="0..1" />

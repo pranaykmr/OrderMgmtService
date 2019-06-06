@@ -19,6 +19,7 @@ namespace OrderMgmtService.Controllers
         // GET: api/Security_UserSession
         public IQueryable<Security_UserSession> GetSecurity_UserSession()
         {
+            db.Configuration.LazyLoadingEnabled = false;
             return db.Security_UserSession;
         }
 

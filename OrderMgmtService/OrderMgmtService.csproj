@@ -130,6 +130,7 @@
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\Security_UserController.cs" />
     <Compile Include="Controllers\Security_UserSessionController.cs" />
+    <Compile Include="Controllers\ShipOrdersController.cs" />
     <Compile Include="Controllers\ShippedByController.cs" />
     <Compile Include="Controllers\ShippingDetailsController.cs" />
     <Compile Include="Controllers\ShippingModesController.cs" />
@@ -176,6 +177,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\OrderInfo.cs" />
+    <Compile Include="Models\ShipOrder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

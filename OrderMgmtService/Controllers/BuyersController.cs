@@ -19,6 +19,7 @@ namespace OrderMgmtService.Controllers
         // GET: api/Buyers
         public IQueryable<Buyer> GetBuyers()
         {
+            db.Configuration.LazyLoadingEnabled = false;
             return db.Buyers;
         }
 

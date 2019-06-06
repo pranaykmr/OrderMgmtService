@@ -19,6 +19,7 @@ namespace OrderMgmtService.Controllers
         // GET: api/ShippingModes
         public IQueryable<ShippingMode> GetShippingModes()
         {
+            db.Configuration.LazyLoadingEnabled = false;
             return db.ShippingModes;
         }
 

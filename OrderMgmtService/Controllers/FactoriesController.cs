@@ -19,6 +19,7 @@ namespace OrderMgmtService.Controllers
         // GET: api/Factories
         public IQueryable<Factory> GetFactories()
         {
+            db.Configuration.LazyLoadingEnabled = false;
             return db.Factories;
         }
 

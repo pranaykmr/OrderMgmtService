@@ -19,6 +19,7 @@ namespace OrderMgmtService.Controllers
         // GET: api/ShippedBy
         public IQueryable<ShippedBy> GetShippedBies()
         {
+            db.Configuration.LazyLoadingEnabled = false;
             return db.ShippedBies;
         }
 

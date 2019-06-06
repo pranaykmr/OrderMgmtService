@@ -18,6 +18,7 @@ namespace OrderMgmtService.Controllers
         [HttpGet]
         public IHttpActionResult GetOrderInfo(string token, bool getInactiveOrders)
         {
+            db.Configuration.LazyLoadingEnabled = false;
             if (getInactiveOrders) { 
             var orderInfo = (from o in db.Orders
                               join f in db.Factories on o.Factory_Id equals f.Factory_Id

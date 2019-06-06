@@ -19,6 +19,7 @@ namespace OrderMgmtService.Controllers
         // GET: api/ShippingDetails
         public IQueryable<ShippingDetail> GetShippingDetails()
         {
+            db.Configuration.LazyLoadingEnabled = false;
             return db.ShippingDetails;
         }
 
