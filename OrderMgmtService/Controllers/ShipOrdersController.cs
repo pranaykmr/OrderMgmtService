@@ -25,15 +25,14 @@ namespace OrderMgmtService.Controllers
                 data.shippingdetails.Order_No = item.OrderNo;
                 data.shippingdetails.PO_No = item.PushraseOrderNo;
                 data.shippingdetails.Quantity = item.Quantity;
-                data.shippingdetails.Weight = item.Weight;
 
                 db.ShippingDetails.Add(data.shippingdetails);
 
-                
+
                 Order order = db.Orders.Find(item.OrderNo);
                 if (order.QuantityShipped == null)
                     order.QuantityShipped = 0;
-                if (item.IsFullyShipped)
+                if (item.IsFullyShipped || item.Quantity >= order.Quantity)
                 {
                     order.Ship_Date = data.shippingdetails.Shipping_Date;
                     order.QuantityShipped = order.Quantity;
@@ -57,7 +56,7 @@ namespace OrderMgmtService.Controllers
                     }
                 }
             }
-            
+
             return Ok(true);
         }
 

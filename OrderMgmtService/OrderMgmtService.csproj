@@ -132,6 +132,7 @@
     <Compile Include="Controllers\Security_UserSessionController.cs" />
     <Compile Include="Controllers\ShipOrdersController.cs" />
     <Compile Include="Controllers\ShippedByController.cs" />
+    <Compile Include="Controllers\ShippingandOrderDetailsController.cs" />
     <Compile Include="Controllers\ShippingDetailsController.cs" />
     <Compile Include="Controllers\ShippingModesController.cs" />
     <Compile Include="Data Access\Buyer.cs">
@@ -179,6 +180,7 @@
     <Compile Include="Models\AddShippingInfo.cs" />
     <Compile Include="Models\OrderInfo.cs" />
     <Compile Include="Models\ShipOrder.cs" />
+    <Compile Include="Models\ShippingOrderDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
